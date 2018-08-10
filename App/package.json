@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve -o --port 9100",
     "build": "ng build",
+    "build-dev": "ng build --watch --delete-output-path false",
     "test": "ng test -cc --browser Chrome",
     "test-nsm": "ng test -cc --sourcemaps=false --browser Chrome",
     "lint": "ng lint",
