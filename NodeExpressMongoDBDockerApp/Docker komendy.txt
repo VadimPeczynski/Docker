@@ -1,0 +1,53 @@
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=yourStrong(!)Password' -e 'MSSQL_PID=Express' -p 1433:1433 -d mcr.microsoft.com/mssql/server:2017-latest-ubuntu
+docker logs [Container_id]
+ipconfig
+docker exec -it e5a /opt/mssql-tools/bin/sqlcmd -S 10.254.4.110 -U sa -P yourStrong(!)Password
+CREATE DATABASE TestDB
+SELECT Name from sys.Databases
+GO
+
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql
+docker exec -it some-mysql mysql --user=root --password=my-secret-pw / bash
+show databases;
+use mysql;
+show tables;
+select * from user;
+exit;
+
+docker volume ls
+docker rm [container_id_mysql]
+docker volume ls
+
+docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d -v db:/var/lib/mysql mysql
+create database pets;
+
+docker container prune
+docker volume prune
+
+docker inspect [container_id_mysql]
+docker volume ls -f dangling=true
+docker volume rm $(docker volume ls -qf dangling=true)
+
+docker image prune
+
+docker system prune
+
+docker run -d --name my-postgres postgres
+
+# Build: 
+docker build -f node.dockerfile -t danwahlin/node .
+
+# Option 1
+# Start MongoDB and Node (link Node to MongoDB container with legacy linking)
+ 
+docker run -d --name my-mongodb mongo
+docker run -d -p 3000:3000 --link my-mongodb:mongodb --name nodeapp danwahlin/node
+
+# Option 2: Create a custom bridge network and add containers into it
+
+docker network create --driver bridge isolated_network
+docker run -d --net=isolated_network --name mongodb mongo
+docker run -d --net=isolated_network --name nodeapp -p 3000:3000 danwahlin/node
+
+# Seed the database with sample database
+docker exec nodeapp node dbSeeder.js
