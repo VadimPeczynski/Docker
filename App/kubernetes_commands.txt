@@ -1,0 +1,42 @@
+
+kubectl get nodes
+minikube start --vm-driver=hyperv
+minikube dashboard
+kubectl create -f pod.yml
+kubectl get pods
+kubectl describe pods
+kubectl get pods/hello-pod
+kubectl get pods --all-namespaces
+kubectl delete pods hello-pod
+
+kubectl create -f rc.yml
+kubectl get rc
+kubectl apply -f rc.yml
+kubectl get rc -o wide
+
+kubectl expose rc hello-rc --name=hello-svc --target-port=8080 --type=NodePort
+kubectl delete svc hello-svc
+
+kubectl get rc -o wide
+
+kubectl describe ep hello-svc
+
+eksctl delete cluster --name prod
+eksctl create cluster
+--name prod
+--version 1.12
+--nodegroup-name standard-workers
+--node-type t3.medium
+--nodes 3
+--nodes-min 1
+--nodes-max 4
+--node-ami auto
+
+kubectl describe deploy hello-deploy
+
+kubectl get rs
+
+kubectlapply -f deploy.yml --record
+kubectl rollout status deploy hello-deploy
+kubectl rollout history deploy hello-deploy
+kubectl rollout undo deploy hello-deploy
